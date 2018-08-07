@@ -144,14 +144,14 @@ func get_match_times(match_id int) (time.Time, float64, error) {
 
   creation := time.Unix(int64(data["gameCreation"].(float64)/1000), 0)
   duration := data["gameDuration"].(float64) / 3600.
-
-  return creation, duration, nil
+  rounded := time.Date(creation.Year(), creation.Month(), creation.Day(), 0, 0, 0, 0, creation.Location())
+  return rounded, duration, nil
 }
 
-func main() {
-	id, err := get_account_id("fuqqboi")
+func scrape(name string) (map[time.Time]float64, error) {
+	id, err := get_account_id(name)
 	if err != nil {
-    return
+    return nil, err
   }
 
   var match_list []int
@@ -171,9 +171,9 @@ func main() {
       length_map[create] = dur
     }
     if er != nil {
-      return
+      return nil, err
     }
     log.Print(create, dur)
   }
-  log.Print(length_map)
+  return length_map, nil
 }
