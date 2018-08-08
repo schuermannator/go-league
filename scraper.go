@@ -14,7 +14,7 @@ import (
 func getAccountID(summoner string) (int, error) {
 	apiKey := url.QueryEscape(os.Getenv("RIOTAPIKEY"))
 	endpt := fmt.Sprintf("https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/%s?api_key=%s", summoner, apiKey)
-
+	log.Print(endpt)
 	// Build the request
 	req, err := http.NewRequest("GET", endpt, nil)
 	if err != nil {
@@ -62,7 +62,7 @@ func getAccountID(summoner string) (int, error) {
 }
 
 func get_matches(id int) ([]int, error) {
-	apiKey := url.QueryEscape("RGAPI-3c40b941-1cbe-4bc6-8b0a-c2bb3d69d118")
+	apiKey := url.QueryEscape(os.Getenv("RIOTAPIKEY"))
 	endpt := fmt.Sprintf("https://na1.api.riotgames.com/lol/match/v3/matchlists/by-account/%d?api_key=%s", id, apiKey)
 	// Build the request
 	req, err := http.NewRequest("GET", endpt, nil)
@@ -105,7 +105,7 @@ func get_matches(id int) ([]int, error) {
 }
 
 func getMatchTimes(matchID int) (time.Time, float64, error) {
-	apiKey := url.QueryEscape("RGAPI-3c40b941-1cbe-4bc6-8b0a-c2bb3d69d118")
+	apiKey := url.QueryEscape(os.Getenv("RIOTAPIKEY"))
 	endpt := fmt.Sprintf("https://na1.api.riotgames.com/lol/match/v3/matches/%d?api_key=%s", matchID, apiKey)
 	// Build the request
 	req, err := http.NewRequest("GET", endpt, nil)
