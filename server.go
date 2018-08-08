@@ -46,7 +46,7 @@ func main() {
 		// Convert map to slice of keys.
 		labels := []time.Time{}
 		values := []float64{}
-		for key, _ := range length_map {
+		for key := range length_map {
 			labels = append(labels, key)
 		}
 		sort.Sort(TimeSlice(labels))
