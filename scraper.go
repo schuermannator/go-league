@@ -8,10 +8,11 @@ import (
 	"net/http"
 	"net/url"
 	"time"
+	"os"
 )
 
 func getAccountID(summoner string) (int, error) {
-	apiKey := url.QueryEscape("RGAPI-3c40b941-1cbe-4bc6-8b0a-c2bb3d69d118")
+	apiKey := url.QueryEscape(os.Getenv("RIOTAPIKEY"))
 	endpt := fmt.Sprintf("https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/%s?api_key=%s", summoner, apiKey)
 
 	// Build the request
