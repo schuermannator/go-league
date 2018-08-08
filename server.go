@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-// Define us a type so we can sort it
+// TimeSlice Define us a type so we can sort it
 type TimeSlice []time.Time
 
 // Forward request for length
@@ -39,19 +39,19 @@ func main() {
 	})
 	router.POST("/", func(c *gin.Context) {
 		name := c.PostForm("text")
-		length_map, err := scrape(name)
+		lengthMap, err := scrape(name)
 		if err != nil {
 			return
 		}
 		// Convert map to slice of keys.
 		labels := []time.Time{}
 		values := []float64{}
-		for key := range length_map {
+		for key := range lengthMap {
 			labels = append(labels, key)
 		}
 		sort.Sort(TimeSlice(labels))
 		for _, label := range labels {
-			values = append(values, length_map[label])
+			values = append(values, lengthMap[label])
 		}
 		fmt.Println("Done scraping")
 		c.HTML(http.StatusOK, "chart.html", gin.H{

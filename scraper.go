@@ -10,9 +10,9 @@ import (
 	"time"
 )
 
-func get_account_id(summoner string) (int, error) {
-	api_key := url.QueryEscape("RGAPI-3c40b941-1cbe-4bc6-8b0a-c2bb3d69d118")
-	endpt := fmt.Sprintf("https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/%s?api_key=%s", summoner, api_key)
+func getAccountID(summoner string) (int, error) {
+	apiKey := url.QueryEscape("RGAPI-3c40b941-1cbe-4bc6-8b0a-c2bb3d69d118")
+	endpt := fmt.Sprintf("https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/%s?api_key=%s", summoner, apiKey)
 
 	// Build the request
 	req, err := http.NewRequest("GET", endpt, nil)
@@ -61,8 +61,8 @@ func get_account_id(summoner string) (int, error) {
 }
 
 func get_matches(id int) ([]int, error) {
-	api_key := url.QueryEscape("RGAPI-3c40b941-1cbe-4bc6-8b0a-c2bb3d69d118")
-	endpt := fmt.Sprintf("https://na1.api.riotgames.com/lol/match/v3/matchlists/by-account/%d?api_key=%s", id, api_key)
+	apiKey := url.QueryEscape("RGAPI-3c40b941-1cbe-4bc6-8b0a-c2bb3d69d118")
+	endpt := fmt.Sprintf("https://na1.api.riotgames.com/lol/match/v3/matchlists/by-account/%d?api_key=%s", id, apiKey)
 	// Build the request
 	req, err := http.NewRequest("GET", endpt, nil)
 	if err != nil {
@@ -95,17 +95,17 @@ func get_matches(id int) ([]int, error) {
 		panic(err)
 	}
 	var list = make([]int, 0)
-	match_list := data["matches"].([]interface{})
-	for _, match := range match_list {
-		match_map := match.(map[string]interface{})
-		list = append(list, int(match_map["gameId"].(float64)))
+	matchList := data["matches"].([]interface{})
+	for _, match := range matchList {
+		matchMap := match.(map[string]interface{})
+		list = append(list, int(matchMap["gameId"].(float64)))
 	}
 	return list, nil
 }
 
-func get_match_times(match_id int) (time.Time, float64, error) {
-	api_key := url.QueryEscape("RGAPI-3c40b941-1cbe-4bc6-8b0a-c2bb3d69d118")
-	endpt := fmt.Sprintf("https://na1.api.riotgames.com/lol/match/v3/matches/%d?api_key=%s", match_id, api_key)
+func getMatchTimes(matchID int) (time.Time, float64, error) {
+	apiKey := url.QueryEscape("RGAPI-3c40b941-1cbe-4bc6-8b0a-c2bb3d69d118")
+	endpt := fmt.Sprintf("https://na1.api.riotgames.com/lol/match/v3/matches/%d?api_key=%s", matchID, apiKey)
 	// Build the request
 	req, err := http.NewRequest("GET", endpt, nil)
 	if err != nil {
@@ -149,31 +149,31 @@ func get_match_times(match_id int) (time.Time, float64, error) {
 }
 
 func scrape(name string) (map[time.Time]float64, error) {
-	id, err := get_account_id(name)
+	id, err := getAccountID(name)
 	if err != nil {
 		return nil, err
 	}
 
-	var match_list []int
-	match_list, err = get_matches(id)
+	var matchList []int
+	matchList, err = get_matches(id)
 
-	length_map := make(map[time.Time]float64)
-	for i, match := range match_list {
+	lengthMap := make(map[time.Time]float64)
+	for i, match := range matchList {
 		if i > 20 {
 			break
 		}
-		create, dur, er := get_match_times(match)
-		if val, ok := length_map[create]; ok {
+		create, dur, er := getMatchTimes(match)
+		if val, ok := lengthMap[create]; ok {
 			// already in map
-			length_map[create] = val + dur
+			lengthMap[create] = val + dur
 		} else {
 			// not in map
-			length_map[create] = dur
+			lengthMap[create] = dur
 		}
 		if er != nil {
 			return nil, err
 		}
 		log.Print(create, dur)
 	}
-	return length_map, nil
+	return lengthMap, nil
 }
