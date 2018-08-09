@@ -3,7 +3,7 @@ body {
 }
 
 .chart-container {
-  position: relative;
+  position: center;
   margin: auto;
   height: 80vh;
   width: 80vw;
