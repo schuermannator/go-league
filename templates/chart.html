@@ -1,39 +1,56 @@
-<!DOCTYPE html><html lang="en"><head>   <meta charset="utf-8" />   <title>Chart.js </title>      <!-- import plugin script -->   <script src='static/js/chart.min.js'></script>   </head><body>
-<h1>Time Usage</h1><!-- bar chart canvas element --><canvas id="chart" width="1200" height="600"></canvas>
-<script>
-   // bar chart data
-   var barData = {
-   labels : [{{range .labels}}
-            {{.}},
-        {{end}}],
-   datasets : [
-      {
-            fillColor: "rgba(151,187,205,0.2)",
-            strokeColor: "rgba(151,187,205,1)",
-            pointColor: "rgba(151,187,205,1)",
-         data : [{{range .values}}
-            {{.}},
-        {{end}}]
-      }
-      ]
-   }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Chart.js </title>
+  <!-- import plugin script -->
+  <script src='static/js/Chart.bundle.min.js'></script>
+  <link rel="stylesheet" href='static/css/bootstrap.min.css'>
+  <link rel="stylesheet" href='static/css/chart.css'>
+</head>
+<body>
+  <h1 class="header text-center">Time Usage</h1>
+  <div class="container">
+    <!-- bar chart canvas element -->
+    <div class="chart-container">
+      <canvas id="chart"></canvas>
+    </div>
+    <script>
+       // bar chart data
+       var barData = {
+       labels : [{{range .labels}}
+                {{.}},
+                {{end}}],
+       datasets : [{
+                backgroundColor: "rgba(151,187,205,0.2)",
+                borderColor: "rgba(151,187,205,1)",
+                borderWidth: 2,
+                data : [{{range .values}}
+                        {{.}},
+                        {{end}}]
+                }]
+       }
 
-   // get bar chart canvas
-   var mychart = document.getElementById("chart").getContext("2d");
+       // get bar chart canvas
+       var mychart = document.getElementById("chart").getContext("2d");
 
-   steps = 10
-   max = {{.max}}
-   // draw bar chart
-   new Chart(mychart).Bar(barData, {
-        scaleOverride: true,
-        scaleSteps: steps,
-        scaleStepWidth: Math.ceil(max / steps),
-        scaleStartValue: 0,
-        scaleShowVerticalLines: true,
-        scaleShowGridLines : true,
-        barShowStroke : true,
-        scaleShowLabels: true
-   });
+       steps = 10
+       max = {{.max}}
+       // draw bar chart
+       chart = new Chart(mychart, {
+            type: 'bar',
+            options: {
+              maintainAspectRatio: false,
+              xAxes: [{
+                gridLines: {
+                  display: false
+                }
+              }]
+            },
+            data: barData,
+       });
 
-</script>
-</body></html>
+    </script>
+  </div>
+</body>
+</html>
