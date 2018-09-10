@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"sort"
 	"time"
+	"regexp"
+	"strconv"
 )
 
 // TimeSlice Define us a type so we can sort it
@@ -39,7 +41,12 @@ func main() {
 	})
 	router.POST("/", func(c *gin.Context) {
 		name := c.PostForm("text")
-		lengthMap, err := scrape(name)
+		re := regexp.MustCompile("[0-9]+")
+		historyLength, err := strconv.Atoi(re.FindAllString(c.PostForm("dropdown"), 1)[0])
+		if err != nil {
+			return
+		}
+		lengthMap, err := scrape(name, historyLength)
 		if err != nil {
 			return
 		}

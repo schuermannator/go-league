@@ -149,7 +149,7 @@ func getMatchTimes(matchID int) (time.Time, float64, error) {
 	return rounded, duration, nil
 }
 
-func scrape(name string) (map[time.Time]float64, error) {
+func scrape(name string, length int) (map[time.Time]float64, error) {
 	id, err := getAccountID(name)
 	if err != nil {
 		return nil, err
@@ -160,7 +160,7 @@ func scrape(name string) (map[time.Time]float64, error) {
 
 	lengthMap := make(map[time.Time]float64)
 	for i, match := range matchList {
-		if i > 20 {
+		if i > length {
 			break
 		}
 		create, dur, er := getMatchTimes(match)
