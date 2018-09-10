@@ -14,14 +14,20 @@ h4 {
   padding-bottom: 15px;
 }
 .container {
-   width: 60%;
    min-height:100%;
    position:relative;
    background-color: #ecf0f1;
    border-radius: 10px;
    box-shadow: 3px 3px 4px #333333;
-   padding-left: 30px;
-   padding-right: 30px;
+   padding-left: 20px;
+   padding-right: 20px;
+}
+@media only screen and (min-width: 760px) {
+  .container {
+     width: 60%;
+     padding-left: 30px;
+     padding-right: 30px;
+  }
 }
 .footer {
    position:absolute;
