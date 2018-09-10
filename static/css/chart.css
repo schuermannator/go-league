@@ -6,12 +6,12 @@ body {
   padding-top: 30px;
   padding-bottom: 15px;
 }
-.container {
+.mycontainer {
    min-height:100%;
-   position:relative;
    background-color: #ecf0f1;
    border-radius: 10px;
    box-shadow: 3px 3px 4px #333333;
+   width: 100%;
 }
 .chart-container {
   position: center;
@@ -19,6 +19,15 @@ body {
   margin: auto;
   height: 80vh;
   width: 80vw;
+}
+/* Smartphones (portrait) ----------- */
+@media only screen and (max-width : 320px) {
+  .mycontainer {
+    width: 100%;
+  }
+  .chart-container {
+    width: 90vw;
+  }
 }
 #chart {
   padding-bottom: 30px;
