@@ -1,10 +1,25 @@
 body {
   padding: 16px;
+  background-color: #34495e;
 }
-
+.header {
+  padding-top: 30px;
+  padding-bottom: 15px;
+}
+.container {
+   min-height:100%;
+   position:relative;
+   background-color: #ecf0f1;
+   border-radius: 10px;
+   box-shadow: 3px 3px 4px #333333;
+}
 .chart-container {
   position: center;
+  padding-right: 30px;
   margin: auto;
   height: 80vh;
   width: 80vw;
+}
+#chart {
+  padding-bottom: 30px;
 }

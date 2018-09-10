@@ -18,8 +18,11 @@
 
       gtag('config', 'UA-92072957-3');
     </script>
-
-
+    <script>
+      function show_loader() {
+        document.getElementById('spin').style.display='inline-block';
+      }
+    </script>
     <title>Have a life?</title>
   </head>
 
@@ -42,8 +45,12 @@
           <option>50 games</option>
           <option>80 games</option>
         </select>
-
-      <input type="submit">
+      <div class="center">
+        <input type="submit" onclick="show_loader()">
+      </div>
+      <div id="spinner" class="center">
+        <div id="spin" class="lds-dual-ring"></div>
+      </div>
       <!--
       <div class="progress" style="height: 5px;">
         <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>

@@ -51,19 +51,27 @@ func main() {
 			return
 		}
 		// Convert map to slice of keys.
-		labels := []time.Time{}
+		times := []time.Time{}
 		values := []float64{}
+		labels := []string{}
+		values_str := []string{}
 		for key := range lengthMap {
-			labels = append(labels, key)
+			times = append(times, key)
 		}
-		sort.Sort(TimeSlice(labels))
-		for _, label := range labels {
-			values = append(values, lengthMap[label])
+		sort.Sort(TimeSlice(times))
+		for _, t := range times {
+			values = append(values, lengthMap[t])
+		}
+		for t := range times {
+			labels = append(labels, times[t].Format("01-02-2006"))
+		}
+		for v := range values {
+			values_str = append(values_str, strconv.FormatFloat(values[v], 'f', 2, 64))
 		}
 		fmt.Println("Done scraping")
 		c.HTML(http.StatusOK, "chart.html", gin.H{
 			"title":  "Chart time!",
-			"values": values,
+			"values": values_str,
 			"labels": labels,
 			"max":    10,
 		})

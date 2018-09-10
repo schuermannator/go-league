@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Chart.js </title>
+  <title>Time Check!</title>
   <!-- import plugin script -->
   <script src='static/js/Chart.bundle.min.js'></script>
   <link rel="stylesheet" href='static/css/bootstrap.min.css'>
@@ -19,8 +19,8 @@
 
 </head>
 <body>
-  <h1 class="header text-center">Time Usage</h1>
   <div class="container">
+    <h1 class="header text-center">Time Usage</h1>
     <!-- bar chart canvas element -->
     <div class="chart-container">
       <canvas id="chart"></canvas>
@@ -58,6 +58,20 @@
               }],
               legend: {
                 display: false
+              },
+              scales: {
+                yAxes: [{
+                    scaleLabel: {
+                      display: true,
+                      labelString: 'Hours Played'
+                    }
+                }],
+                xAxes: [{
+                    scaleLabel: {
+                      display: true,
+                      labelString: 'Date'
+                    }
+                }]
               }
             },
             data: barData,
