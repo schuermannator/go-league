@@ -5,10 +5,10 @@ import (
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
-	"sort"
-	"time"
 	"regexp"
+	"sort"
 	"strconv"
+	"time"
 )
 
 // TimeSlice Define us a type so we can sort it
