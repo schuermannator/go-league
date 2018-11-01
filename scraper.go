@@ -7,8 +7,8 @@ import (
 	"log"
 	"net/http"
 	"net/url"
-	"time"
 	"os"
+	"time"
 )
 
 func getAccountID(summoner string) (int, error) {
