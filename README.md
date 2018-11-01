@@ -10,4 +10,4 @@ VERY Limited API Key - heavily rate limited and code does not handle well (just 
 
 ## Misc
 
-Formatted with gofmt -s -w
+Formatted with ```gofmt -s -w```
