@@ -7,3 +7,7 @@ Live at: http://league.zvs.io
 ## Known Issues
 
 VERY Limited API Key - heavily rate limited and code does not handle well (just returns 404 error after attempting to chart)
+
+## Misc
+
+Formatted with ```gofmt -s -w```

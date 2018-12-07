@@ -7,8 +7,8 @@ import (
 	"log"
 	"net/http"
 	"net/url"
-	"time"
 	"os"
+	"time"
 )
 
 func getAccountID(summoner string) (int, error) {
@@ -61,7 +61,7 @@ func getAccountID(summoner string) (int, error) {
 	return int(data["accountId"].(float64)), nil
 }
 
-func get_matches(id int) ([]int, error) {
+func getMatches(id int) ([]int, error) {
 	apiKey := url.QueryEscape(os.Getenv("RIOTAPIKEY"))
 	endpt := fmt.Sprintf("https://na1.api.riotgames.com/lol/match/v3/matchlists/by-account/%d?api_key=%s", id, apiKey)
 	// Build the request
@@ -156,7 +156,7 @@ func scrape(name string, length int) (map[time.Time]float64, error) {
 	}
 
 	var matchList []int
-	matchList, err = get_matches(id)
+	matchList, err = getMatches(id)
 
 	lengthMap := make(map[time.Time]float64)
 	for i, match := range matchList {
