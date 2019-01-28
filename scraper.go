@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"crypto/tls"
 	"os"
 	"time"
 )
@@ -26,14 +27,17 @@ func getAccountID(summoner string) (int, error) {
 	// redirect policy, and other settings,
 	// create a Client
 	// A Client is an HTTP client
-	client := &http.Client{}
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify : true},
+	}
+	client := &http.Client{Transport: tr}
 
 	// Send the request via a client
 	// Do sends an HTTP request and
 	// returns an HTTP response
 	resp, err := client.Do(req)
 	if err != nil {
-		log.Fatal("Do: ", err)
+		log.Fatal("Request fatal - Do: ", err)
 		return -1, err
 	}
 
@@ -75,7 +79,10 @@ func getMatches(id int) ([]int, error) {
 	// redirect policy, and other settings,
 	// create a Client
 	// A Client is an HTTP client
-	client := &http.Client{}
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify : true},
+	}
+	client := &http.Client{Transport: tr}
 
 	// Send the request via a client
 	// Do sends an HTTP request and
@@ -118,7 +125,10 @@ func getMatchTimes(matchID int) (time.Time, float64, error) {
 	// redirect policy, and other settings,
 	// create a Client
 	// A Client is an HTTP client
-	client := &http.Client{}
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify : true},
+	}
+	client := &http.Client{Transport: tr}
 
 	// Send the request via a client
 	// Do sends an HTTP request and
