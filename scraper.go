@@ -12,15 +12,15 @@ import (
 	"time"
 )
 
-func getAccountID(summoner string) (int, error) {
+func getAccountID(summoner string) (string, error) {
 	apiKey := url.QueryEscape(os.Getenv("RIOTAPIKEY"))
-	endpt := fmt.Sprintf("https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/%s?api_key=%s", summoner, apiKey)
+	endpt := fmt.Sprintf("https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/%s?api_key=%s", summoner, apiKey)
 	log.Print(endpt)
 	// Build the request
 	req, err := http.NewRequest("GET", endpt, nil)
 	if err != nil {
 		log.Fatal("NewRequest: ", err)
-		return -1, err
+		return "", err
 	}
 
 	// For control over HTTP client headers,
@@ -38,7 +38,7 @@ func getAccountID(summoner string) (int, error) {
 	resp, err := client.Do(req)
 	if err != nil {
 		log.Fatal("Request fatal - Do: ", err)
-		return -1, err
+		return "", err
 	}
 
 	// Callers should close resp.Body
@@ -62,12 +62,12 @@ func getAccountID(summoner string) (int, error) {
 
 	log.Print(data["accountId"])
 
-	return int(data["accountId"].(float64)), nil
+	return data["accountId"].(string), nil
 }
 
-func getMatches(id int) ([]int, error) {
+func getMatches(id string) ([]int, error) {
 	apiKey := url.QueryEscape(os.Getenv("RIOTAPIKEY"))
-	endpt := fmt.Sprintf("https://na1.api.riotgames.com/lol/match/v3/matchlists/by-account/%d?api_key=%s", id, apiKey)
+	endpt := fmt.Sprintf("https://na1.api.riotgames.com/lol/match/v4/matchlists/by-account/%s?api_key=%s", id, apiKey)
 	// Build the request
 	req, err := http.NewRequest("GET", endpt, nil)
 	if err != nil {
@@ -113,7 +113,7 @@ func getMatches(id int) ([]int, error) {
 
 func getMatchTimes(matchID int) (time.Time, float64, error) {
 	apiKey := url.QueryEscape(os.Getenv("RIOTAPIKEY"))
-	endpt := fmt.Sprintf("https://na1.api.riotgames.com/lol/match/v3/matches/%d?api_key=%s", matchID, apiKey)
+	endpt := fmt.Sprintf("https://na1.api.riotgames.com/lol/match/v4/matches/%d?api_key=%s", matchID, apiKey)
 	// Build the request
 	req, err := http.NewRequest("GET", endpt, nil)
 	if err != nil {
