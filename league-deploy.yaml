@@ -16,9 +16,14 @@ spec:
     spec:
       containers:
       - name: league
-        image: docker.io/schuermannator/league
+        image: docker.io/schuermannator/league-arm
         ports:
         - containerPort: 8080
+        env:
+        - name: RIOTAPIKEY
+          value:
+        - name: GIN_MODE
+          value: release
 
 ---
 

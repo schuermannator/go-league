@@ -15,7 +15,7 @@ import (
 func getAccountID(summoner string) (string, error) {
 	apiKey := url.QueryEscape(os.Getenv("RIOTAPIKEY"))
 	endpt := fmt.Sprintf("https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/%s?api_key=%s", summoner, apiKey)
-	log.Print(endpt)
+	//log.Print(endpt)
 	// Build the request
 	req, err := http.NewRequest("GET", endpt, nil)
 	if err != nil {
@@ -60,14 +60,15 @@ func getAccountID(summoner string) (string, error) {
 		panic(err)
 	}
 
-	log.Print(data["accountId"])
+	//log.Print(data["accountId"])
 
 	return data["accountId"].(string), nil
 }
 
-func getMatches(id string) ([]int, error) {
+func getMatches(id string) ([]int64, error) {
 	apiKey := url.QueryEscape(os.Getenv("RIOTAPIKEY"))
 	endpt := fmt.Sprintf("https://na1.api.riotgames.com/lol/match/v4/matchlists/by-account/%s?api_key=%s", id, apiKey)
+	//log.Print(endpt)
 	// Build the request
 	req, err := http.NewRequest("GET", endpt, nil)
 	if err != nil {
@@ -102,18 +103,21 @@ func getMatches(id string) ([]int, error) {
 	if err := json.Unmarshal(body, &data); err != nil {
 		panic(err)
 	}
-	var list = make([]int, 0)
+	//log.Print(data)
+	var list = make([]int64, 0)
 	matchList := data["matches"].([]interface{})
 	for _, match := range matchList {
 		matchMap := match.(map[string]interface{})
-		list = append(list, int(matchMap["gameId"].(float64)))
+		list = append(list, int64(matchMap["gameId"].(float64)))
 	}
+	//log.Print(list)
 	return list, nil
 }
 
-func getMatchTimes(matchID int) (time.Time, float64, error) {
+func getMatchTimes(matchID int64) (time.Time, float64, error) {
 	apiKey := url.QueryEscape(os.Getenv("RIOTAPIKEY"))
 	endpt := fmt.Sprintf("https://na1.api.riotgames.com/lol/match/v4/matches/%d?api_key=%s", matchID, apiKey)
+	//log.Print(endpt)
 	// Build the request
 	req, err := http.NewRequest("GET", endpt, nil)
 	if err != nil {
@@ -144,6 +148,10 @@ func getMatchTimes(matchID int) (time.Time, float64, error) {
 	// Defer the closing of the body
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal("Do: ", err)
+		return time.Time{}, 0, err
+	}
 	var data map[string]interface{}
 	if err := json.Unmarshal(body, &data); err != nil {
 		panic(err)
@@ -165,7 +173,7 @@ func scrape(name string, length int) (map[time.Time]float64, error) {
 		return nil, err
 	}
 
-	var matchList []int
+	var matchList []int64
 	matchList, err = getMatches(id)
 
 	lengthMap := make(map[time.Time]float64)
@@ -173,6 +181,7 @@ func scrape(name string, length int) (map[time.Time]float64, error) {
 		if i > length {
 			break
 		}
+		log.Print(match)
 		create, dur, er := getMatchTimes(match)
 		if val, ok := lengthMap[create]; ok {
 			// already in map
