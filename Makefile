@@ -4,7 +4,10 @@
 # @file
 # @version 0.1
 
-#all: league-a-lot
+all: league
+
+league:
+	go build
 
 .PHONY: docker image deploy
 

@@ -4,26 +4,21 @@ Check how much time you (or your friends) spend playing League of Legends!
 
 Live at: https://league.zvs.io  
 
-## Known Issues
-
-Limited API Key - rate limited and code does not handle well (just returns 404 error after attempting to chart)
-
-
 ## Building
 
 Running locally:  
 ```bash 
-$ go build
-$ ./go-league
+$ make
+$ ./league-a-lot
 ```
 
-Build image for deployment:
+Deploy: (requires kubectl context)
 ```bash 
-$ docker build -t schuermannator/league .
-$ docker push schuermannator/league
+$ make docker
+$ kubectl apply -f .
 ```
 
-Then restart pod on Kubernetes. (deployment has `ImagePullPolicy` set to `Always`)  
+Or just restart pod on Kubernetes. (deployment has `ImagePullPolicy` set to `Always`)  
 
 ## Misc
 
