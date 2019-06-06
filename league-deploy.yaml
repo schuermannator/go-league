@@ -21,9 +21,9 @@ spec:
         - containerPort: 8080
         env:
         - name: RIOTAPIKEY
-          value:
-        - name: GIN_MODE
-          value: release
+          value: 
+              #- name: GIN_MODE
+              #value: release
 
 ---
 
