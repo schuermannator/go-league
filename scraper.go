@@ -9,6 +9,7 @@ import (
 	"net/url"
 	"crypto/tls"
 	"os"
+	"sync"
 	"time"
 )
 
@@ -173,6 +174,8 @@ func scrape(name string, length int) (map[time.Time]float64, error) {
 		return nil, err
 	}
 
+	var wg sync.WaitGroup
+
 	var matchList []int64
 	matchList, err = getMatches(id)
 
@@ -181,19 +184,24 @@ func scrape(name string, length int) (map[time.Time]float64, error) {
 		if i > length {
 			break
 		}
+		wg.Add(1)
 		log.Print(match)
-		create, dur, er := getMatchTimes(match)
-		if val, ok := lengthMap[create]; ok {
-			// already in map
-			lengthMap[create] = val + dur
-		} else {
-			// not in map
-			lengthMap[create] = dur
-		}
-		if er != nil {
-			return nil, err
-		}
-		log.Print(create, dur)
+		go func(match int64) {
+			defer wg.Done()
+			create, dur, _ := getMatchTimes(match)
+			if val, ok := lengthMap[create]; ok {
+				// already in map
+				lengthMap[create] = val + dur
+			} else {
+		 		// not in map
+				lengthMap[create] = dur
+		 	}
+			//if er != nil {
+			//	return nil, err
+			//}
+			log.Print(create, dur)
+		}(match)
 	}
+	wg.Wait()
 	return lengthMap, nil
 }
