@@ -175,6 +175,7 @@ func scrape(name string, length int) (map[time.Time]float64, error) {
 	}
 
 	var wg sync.WaitGroup
+    var mu = &sync.Mutex{}
 
 	var matchList []int64
 	matchList, err = getMatches(id)
@@ -189,6 +190,7 @@ func scrape(name string, length int) (map[time.Time]float64, error) {
 		go func(match int64) {
 			defer wg.Done()
 			create, dur, _ := getMatchTimes(match)
+            mu.Lock()
 			if val, ok := lengthMap[create]; ok {
 				// already in map
 				lengthMap[create] = val + dur
@@ -196,6 +198,7 @@ func scrape(name string, length int) (map[time.Time]float64, error) {
 		 		// not in map
 				lengthMap[create] = dur
 		 	}
+            mu.Unlock()
 			//if er != nil {
 			//	return nil, err
 			//}
