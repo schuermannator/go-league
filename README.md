@@ -8,18 +8,5 @@ Live at: https://lol.zvs.io
 
 Running locally:  
 ```bash 
-$ make
-$ ./league-a-lot
+$ go build && ./league-a-lot
 ```
-
-Deploy: (requires kubectl context)
-```bash 
-$ make docker
-$ kubectl apply -f .
-```
-
-Or just restart pod on Kubernetes. (deployment has `ImagePullPolicy` set to `Always`)  
-
-## Misc
-
-Formatted with ```gofmt -s -w```
