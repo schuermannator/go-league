@@ -1,0 +1,38 @@
+version: "3.7"
+
+services:
+  caddy:
+    image: caddy:latest
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - $PWD/Caddyfile:/etc/caddy/Caddyfile
+        #- caddy_data:/data
+        #- caddy_config:/config
+    networks:
+      - caddy
+
+  # Proxy to service
+  league:
+    build: .
+    #ports:
+      # - "8080:8080"
+    environment:
+      - "RIOTAPIKEY=***"
+      - "GIN_MODE=release"
+    networks:
+      - caddy
+
+  # Proxy to service
+  livewait:
+    image: live-wait:latest
+    networks:
+      - caddy
+        #ports:
+      # - "8081:8080"
+
+networks:
+  caddy:
+    # driver: overlay

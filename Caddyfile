@@ -1,0 +1,7 @@
+lol.zvs.io {
+    reverse_proxy league:8080
+}
+
+oh.zvs.io {
+    reverse_proxy livewait:8080
+}
