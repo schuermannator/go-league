@@ -10,6 +10,11 @@ Live at: https://lol.zvs.io
 # docker run -p 8080:8080 --env GIN_MODE=release --env RIOTAPIKEY=*** league-a-lot
 ```
 
+## Testing
+```
+echo "GET https://lol.zvs.io/" | go/bin/vegeta attack -duration=5s -rate 1000/1s | tee results.bin | go/bin/vegeta report
+```
+
 ## Building
 
 Running locally:  
