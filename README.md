@@ -4,6 +4,12 @@ Check how much time you (or your friends) spend playing League of Legends!
 
 Live at: https://lol.zvs.io  
 
+## Running
+```
+# docker build -t league-a-lot .
+# docker run -p 8080:8080 --env GIN_MODE=release --env RIOTAPIKEY=*** league-a-lot
+```
+
 ## Building
 
 Running locally:  
